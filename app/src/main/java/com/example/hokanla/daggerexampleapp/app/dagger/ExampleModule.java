@@ -3,7 +3,6 @@ package com.example.hokanla.daggerexampleapp.app.dagger;
 import com.example.hokanla.daggerexampleapp.api.IGitApi;
 import com.example.hokanla.daggerexampleapp.api.IGitConfig;
 import com.example.hokanla.daggerexampleapp.api.persistence.IUserDataManager;
-import com.example.hokanla.daggerexampleapp.api.persistence.impl.UserDataManager;
 import com.example.hokanla.daggerexampleapp.app.DaggerExampleApp;
 import com.squareup.otto.Bus;
 

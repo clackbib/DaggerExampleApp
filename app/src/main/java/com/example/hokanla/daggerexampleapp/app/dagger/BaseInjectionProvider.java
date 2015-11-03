@@ -11,7 +11,11 @@ import com.squareup.otto.Bus;
 /**
  * Created by hokanla on 02/11/2015.
  * Copyright (c) 2014 Pandora 2015, Inc
+ * This class provides injections to be passed onto the module.
+ * The sole purpose of this class is provide injection hooks for mocks.
  */
+
+
 public class BaseInjectionProvider {
 
 
