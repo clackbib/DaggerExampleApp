@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DaggerExampleApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="explanation">This is a dagger 2 Demo. Simply click the FAB below to trigger an api Call. Use the toggle below to switch between a mock or a real api implementation.</string>
+</resources>
