@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity implements ApiCallBack<List<
         owner = (EditText) findViewById(R.id.owner);
         repo = (EditText) findViewById(R.id.repo);
         apiMockToggle = (ToggleButton) findViewById(R.id.toggle);
-        btnFetchIssues = (Button) findViewById(R.id.testbutton);
+        btnFetchIssues = (Button) findViewById(R.id.fetch_issues);
         pbIssues = (ProgressBar) findViewById(R.id.pb_issues_list);
         rvIssues = (RecyclerView) findViewById(R.id.rv_issues_list);
         rvIssues.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
