@@ -22,13 +22,11 @@ import static org.mockito.Mockito.verify;
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
 public class ExampleUnitTest {
-    private Bus mockBus = mock(Bus.class);
-
-
-    private IUserDataManager mockUserDataManager = mock(IUserDataManager.class);
 
     private IGitApi mIGitApi;
-
+    private Bus mockBus = mock(Bus.class);
+    private IUserDataManager mockUserDataManager = mock(IUserDataManager.class);
+    
     private BaseInjectionProvider injectionProvider = new BaseInjectionProvider() {
         @Override
         protected Bus provideBus() {
