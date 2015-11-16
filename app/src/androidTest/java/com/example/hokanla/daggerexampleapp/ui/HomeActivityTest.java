@@ -4,7 +4,7 @@ import com.example.hokanla.daggerexampleapp.R;
 import com.example.hokanla.daggerexampleapp.api.ApiCallBack;
 import com.example.hokanla.daggerexampleapp.api.IGitApi;
 import com.example.hokanla.daggerexampleapp.app.DaggerExampleApp;
-import com.example.hokanla.daggerexampleapp.app.dagger.BaseInjectionProvider;
+import com.example.hokanla.daggerexampleapp.app.dagger.ExampleModule;
 
 import org.junit.Before;
 import org.mockito.ArgumentCaptor;
@@ -32,12 +32,6 @@ public class HomeActivityTest
 
     /** Create and mock of the API, and return in with an injection provider **/
     private IGitApi mockApi = mock(IGitApi.class);
-    private BaseInjectionProvider mBaseInjectionProvider = new BaseInjectionProvider() {
-        @Override
-        protected IGitApi provideGitApi() {
-            return mockApi;
-        }
-    };
     
     public HomeActivityTest() {
         super(HomeActivity.class);
@@ -47,7 +41,12 @@ public class HomeActivityTest
     public void setUp() throws Exception {
         super.setUp();
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
-        DaggerExampleApp.setAppComponent(mBaseInjectionProvider);
+        DaggerExampleApp.setAppModule(new ExampleModule(DaggerExampleApp.getApp()) {
+            @Override
+            protected IGitApi provideBeukApi() {
+                return mockApi;
+            }
+        });
     }
 
 

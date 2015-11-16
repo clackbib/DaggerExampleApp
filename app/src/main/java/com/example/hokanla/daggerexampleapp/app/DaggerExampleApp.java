@@ -3,7 +3,6 @@ package com.example.hokanla.daggerexampleapp.app;
 
 import com.example.hokanla.daggerexampleapp.api.IGitApi;
 import com.example.hokanla.daggerexampleapp.api.impl.GitApiMockImpl;
-import com.example.hokanla.daggerexampleapp.app.dagger.BaseInjectionProvider;
 import com.example.hokanla.daggerexampleapp.app.dagger.DaggerExampleAppComponent;
 import com.example.hokanla.daggerexampleapp.app.dagger.ExampleAppComponent;
 import com.example.hokanla.daggerexampleapp.app.dagger.ExampleModule;
@@ -31,13 +30,12 @@ public class DaggerExampleApp extends Application {
     }
 
     private void buildModule() {
-        BaseInjectionProvider injectionProvider = isUsingMockApi() ? new BaseInjectionProvider() {
+        setComponentModule(isUsingMockApi() ? new ExampleModule(this) {
             @Override
-            protected IGitApi provideGitApi() {
+            protected IGitApi provideBeukApi() {
                 return new GitApiMockImpl();
             }
-        } : new BaseInjectionProvider();
-        setComponent(injectionProvider);
+        } : new ExampleModule(this));
 
     }
 
@@ -50,14 +48,14 @@ public class DaggerExampleApp extends Application {
         return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(MOCK_API_USAGE, false);
     }
 
-    public void setComponent(BaseInjectionProvider injectionProvider) {
+    private void setComponentModule(ExampleModule module) {
         this.component = DaggerExampleAppComponent.builder()
-                .exampleModule(new ExampleModule(this, injectionProvider))
+                .exampleModule(module)
                 .build();
     }
 
-    public static void setAppComponent(BaseInjectionProvider injectionProvider) {
-        sApp.setComponent(injectionProvider);
+    public static void setAppModule(ExampleModule module) {
+        sApp.setComponentModule(module);
     }
 
     public static boolean usesMockApi() {
@@ -71,5 +69,9 @@ public class DaggerExampleApp extends Application {
 
     public static ExampleAppComponent getComponent() {
         return sApp.component;
+    }
+
+    public static DaggerExampleApp getApp() {
+        return sApp;
     }
 }

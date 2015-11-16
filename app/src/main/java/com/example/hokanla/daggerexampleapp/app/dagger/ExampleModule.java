@@ -2,7 +2,10 @@ package com.example.hokanla.daggerexampleapp.app.dagger;
 
 import com.example.hokanla.daggerexampleapp.api.IGitApi;
 import com.example.hokanla.daggerexampleapp.api.IGitConfig;
+import com.example.hokanla.daggerexampleapp.api.impl.GitApiRetrofitImpl;
+import com.example.hokanla.daggerexampleapp.api.impl.GitConfig;
 import com.example.hokanla.daggerexampleapp.api.persistence.IUserDataManager;
+import com.example.hokanla.daggerexampleapp.api.persistence.impl.UserDataManager;
 import com.example.hokanla.daggerexampleapp.app.DaggerExampleApp;
 import com.squareup.otto.Bus;
 
@@ -22,11 +25,9 @@ public class ExampleModule {
 
 
     private final DaggerExampleApp app;
-    private BaseInjectionProvider mBaseInjectionProvider;
 
-    public ExampleModule(DaggerExampleApp app, BaseInjectionProvider injectionProvider) {
+    public ExampleModule(DaggerExampleApp app) {
         this.app = app;
-        this.mBaseInjectionProvider = injectionProvider;
     }
 
     @Provides
@@ -38,25 +39,25 @@ public class ExampleModule {
     @Provides
     @Singleton
     IGitConfig provideConfig() {
-        return mBaseInjectionProvider.provideConfig();
+        return new GitConfig();
     }
 
 
     @Provides
     @Singleton
-    IGitApi provideBeukApi() {
-        return mBaseInjectionProvider.provideGitApi();
+    protected IGitApi provideBeukApi() {
+        return new GitApiRetrofitImpl();
     }
 
     @Provides
     @Singleton
-    Bus provideBus() {
-        return mBaseInjectionProvider.provideBus();
+    protected Bus provideBus() {
+        return new Bus();
     }
 
     @Singleton
     @Provides
-    IUserDataManager provideUserData() {
-        return mBaseInjectionProvider.provideUserData();
+    protected IUserDataManager provideUserData() {
+        return new UserDataManager();
     }
 }

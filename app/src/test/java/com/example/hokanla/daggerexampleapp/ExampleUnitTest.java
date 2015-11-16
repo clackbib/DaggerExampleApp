@@ -5,7 +5,7 @@ import com.example.hokanla.daggerexampleapp.api.event.AuthStatusEvent;
 import com.example.hokanla.daggerexampleapp.api.persistence.IUserDataManager;
 import com.example.hokanla.daggerexampleapp.api.persistence.model.UserData;
 import com.example.hokanla.daggerexampleapp.app.DaggerExampleApp;
-import com.example.hokanla.daggerexampleapp.app.dagger.BaseInjectionProvider;
+import com.example.hokanla.daggerexampleapp.app.dagger.ExampleModule;
 import com.squareup.otto.Bus;
 
 import org.junit.Before;
@@ -14,7 +14,6 @@ import org.mockito.ArgumentCaptor;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -26,23 +25,21 @@ public class ExampleUnitTest {
     private IGitApi mIGitApi;
     private Bus mockBus = mock(Bus.class);
     private IUserDataManager mockUserDataManager = mock(IUserDataManager.class);
-    
-    private BaseInjectionProvider injectionProvider = new BaseInjectionProvider() {
-        @Override
-        protected Bus provideBus() {
-            return mockBus;
-        }
-
-        @Override
-        protected IUserDataManager provideUserData() {
-            return mockUserDataManager;
-        }
-    };
 
     @Before
     public void setUp() {
         new DaggerExampleApp();
-        DaggerExampleApp.setAppComponent(injectionProvider);
+        DaggerExampleApp.setAppModule(new ExampleModule(DaggerExampleApp.getApp()) {
+            @Override
+            protected Bus provideBus() {
+                return mockBus;
+            }
+
+            @Override
+            protected IUserDataManager provideUserData() {
+                return mockUserDataManager;
+            }
+        });
         mIGitApi = DaggerExampleApp.getComponent().getApi();
     }
 
