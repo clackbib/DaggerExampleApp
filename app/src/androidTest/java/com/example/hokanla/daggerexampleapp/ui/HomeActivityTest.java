@@ -74,7 +74,7 @@ public class HomeActivityTest
          **/
         
         /** BEGIN --------------------------------------------------------
-         **/
+         
         doAnswer(new Answer<Void>() {
             public Void answer(InvocationOnMock invocation) {
                 ApiCallBack callBack = (ApiCallBack) invocation.getArguments()[2];
@@ -83,7 +83,7 @@ public class HomeActivityTest
             }
         }).when(mockApi).getGitIssues(any(String.class), any(String.class), any(ApiCallBack.class));
         
-        /** END--------------------------------------------------------- **/
+         END--------------------------------------------------------- **/
         
         
         /** Type in a mock repository owner and repo, and try to fetch the issues for it */
