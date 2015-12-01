@@ -55,6 +55,25 @@ public class HomeActivityTest
         getActivity();
         /** Here, we're not testing the api, but we're testing the UI that triggers that API call
          *  When the UI tries to interact with our mock of that api, we'll just fake a success.
+         *  
+         *  The setup below catches the callback that gets passed to a method which has to return has list of Git issues.
+         *  That callback is a method that will update the UI (Hide progress bar, update adapter, show Toast), so our mock simply catches this callback
+         *  and manually calls its success method. Since the success methods updates the UI, our espresso test is allowed to continue.
+         *
+         *  Without this block of code, the test just spins forever, and finally produces this trace:
+         *  
+         *  Q: How to allow an espresso test to complete if your last action doesn't trigger UI interaction?
+         *  
+         *  android.support.test.espresso.PerformException: Error performing 'single click' on view 'with id: com.example.hokanla.daggerexampleapp:id/fetch_issues'.
+         at android.support.test.espresso.PerformException$Builder.build(PerformException.java:83)
+         at android.support.test.espresso.base.DefaultFailureHandler.getUserFriendlyError(DefaultFailureHandler.java:70)
+         at android.support.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:53)
+         at android.support.test.espresso.ViewInteraction.runSynchronouslyOnUiThread(ViewInteraction.java:184)
+         at android.support.test.espresso.ViewInteraction.doPerform(ViewInteraction.java:115)
+
+         **/
+        
+        /** BEGIN --------------------------------------------------------
          **/
         doAnswer(new Answer<Void>() {
             public Void answer(InvocationOnMock invocation) {
@@ -63,7 +82,10 @@ public class HomeActivityTest
                 return null;
             }
         }).when(mockApi).getGitIssues(any(String.class), any(String.class), any(ApiCallBack.class));
-
+        
+        /** END--------------------------------------------------------- **/
+        
+        
         /** Type in a mock repository owner and repo, and try to fetch the issues for it */
         String mockRepo = "mock";
         String mockOwner = "McOwnerSon";
@@ -75,8 +97,6 @@ public class HomeActivityTest
         onView(withId(R.id.fetch_issues))
                 .perform(click())
                 .check(matches(isDisplayed()));
-
-
         /**
          * Finally, we verify 2 things. That the UI is wired up properly, and that the steps we took earlier do 
          * trigger and API call. Second, that the arguments coming from the UI match the what we provided earlier.
