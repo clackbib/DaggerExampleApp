@@ -59,10 +59,10 @@ public class HomeActivityTest
          *  The setup below catches the callback that gets passed to a method which has to return has list of Git issues.
          *  That callback is a method that will update the UI (Hide progress bar, update adapter, show Toast), so our mock simply catches this callback
          *  and manually calls its success method. Since the success methods updates the UI, our espresso test is allowed to continue.
-         *
-         *  Without this block of code, the test just spins forever, and finally produces this trace:
-         *  
+         **  
          *  Q: How to allow an espresso test to complete if your last action doesn't trigger UI interaction?
+         *  
+         *  Without this block of code, the test just spins forever, and finally produces this trace:
          *  
          *  android.support.test.espresso.PerformException: Error performing 'single click' on view 'with id: com.example.hokanla.daggerexampleapp:id/fetch_issues'.
          at android.support.test.espresso.PerformException$Builder.build(PerformException.java:83)
