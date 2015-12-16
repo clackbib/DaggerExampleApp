@@ -1,0 +1,3 @@
+general:
+  artifacts:
+    - "app/build/outputs/apk/app-production-release-unaligned.apk"
